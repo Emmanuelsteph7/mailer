@@ -202,7 +202,7 @@ app.post("/portfolio", (req, res) => {
 
   let mailOptions = {
     from: `"My Portfolio" <${process.env.AUTHEMAIL2}>`,
-    to: `${process.env.EMAIL1}`,
+    to: `${process.env.EMAIL4}`,
     subject: "New Mail from Portfolio",
     text: "Hello world?",
     html: output,
