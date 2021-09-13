@@ -26,6 +26,56 @@ app.get("/hello", (req, res) => {
   res.json({ message: "hello" });
 });
 
+app.post("/portfolio1", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  const output = `
+    <h2>Hello Emmanuel</h2>
+    <p>You have a new mail from your Portfolio</p>
+    <h3>Contact Details</h3>
+    <ul>
+      <li style="margin-bottom: 10px;">Name: ${name}</li>
+      <li style="margin-bottom: 10px;">Email: ${email}</li>
+      <li style="margin-bottom: 10px;">Message: ${message}</li>
+    </ul>
+  `;
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: `${process.env.AUTHEMAIL}`,
+      pass: `${process.env.AUTHPASSWORD}`,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  let mailOptions = {
+    from: `"My Portfolio" <${process.env.AUTHEMAIL}>`,
+    to: `${process.env.EMAIL1}`,
+    subject: "New Mail",
+    text: "Hello world?",
+    html: output,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions), (error, info) => {
+    // if (error) {
+    //   return res.json(error);
+    res.json({ success: true, message: "Email has been sent" });
+  } catch (error) {
+    res.json(error);
+  }
+
+  // console.log("Message sent: ", info.messageId);
+  // console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
+  // });
+});
+
 app.post("/contact", (req, res) => {
   const { name, email, phone, message } = req.body;
 
@@ -123,13 +173,17 @@ app.post("/contact", (req, res) => {
   }
 });
 
-app.post("/quote", (req, res) => {
+app.post("/portfolio", (req, res) => {
+  const { name, email, message } = req.body;
+
   const output = `
-    <p>You have a new mail from full-stack business</p>
-    <h3>Form Details</h3>
+    <h2>Hello Emmanuel</h2>
+    <p>You have a new mail from your Portfolio</p>
+    <h3>Contact Details</h3>
     <ul>
-      <li style="margin-bottom: 10px;">Email: ${req.body.we}</li>
-      <li style="margin-bottom: 10px;">Password: ${req.body.seccuressl}</li>
+      <li style="margin-bottom: 10px;">Name: ${name}</li>
+      <li style="margin-bottom: 10px;">Email: ${email}</li>
+      <li style="margin-bottom: 10px;">Message: ${message}</li>
     </ul>
   `;
 
@@ -147,9 +201,9 @@ app.post("/quote", (req, res) => {
   });
 
   let mailOptions = {
-    from: `"Web Form" <${process.env.AUTHEMAIL2}>`,
-    to: `${process.env.EMAIL3}`,
-    subject: "New Mail",
+    from: `"My Portfolio" <${process.env.AUTHEMAIL2}>`,
+    to: `${process.env.EMAIL1}`,
+    subject: "New Mail from Portfolio",
     text: "Hello world?",
     html: output,
   };
