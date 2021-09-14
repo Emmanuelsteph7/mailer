@@ -1,8 +1,7 @@
-// latest
-
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
+const errorMiddleware = require("./middleware/errors");
 require("dotenv").config();
 
 // instantiate an express app
@@ -18,6 +17,7 @@ app.use(
   })
 );
 // const router = express.Router;
+app.use("/api", require("./routes/api/portfolio"));
 
 app.get("/", (req, res) => {
   res.json({ message: "home" });
@@ -178,7 +178,7 @@ app.post("/contact", (req, res) => {
   }
 });
 
-app.post("/portfolio", (req, res) => {
+app.post("/portfolio", async (req, res) => {
   const { name, email, message } = req.body;
 
   const output = `
@@ -213,19 +213,23 @@ app.post("/portfolio", (req, res) => {
     html: output,
   };
 
-  try {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return res.json(error);
-      }
-      console.log("Message sent: ", info.messageId);
-      console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
-    });
-    res.json({ message: "Email has been sent" });
-  } catch (error) {
-    res.json(error);
-  }
+  console.log("ll");
+  // try {
+  await transporter.sendMail(mailOptions);
+  // if (error) {
+  //   return res.json(error);
+  // }
+  // console.log("Message sent: ", info.messageId);
+  // console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
+  // });
+  res.json({ message: "Email has been sent" });
+  // } catch (error) {
+  //   res.json(error);
+  // }
 });
+
+// Middleware to handle errors
+app.use(errorMiddleware);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
