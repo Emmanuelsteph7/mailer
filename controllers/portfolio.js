@@ -5,7 +5,6 @@ const sendEmail = require("../utils/sendEmail");
 exports.sendEmail = catchAsyncErrors(async (req, res, next) => {
   const { name, email, message } = req.body;
 
-  //   console.log(req.body);
   const output = `
     <h2>Hello Emmanuel</h2>
     <p>You have a new mail from your Portfolio</p>
