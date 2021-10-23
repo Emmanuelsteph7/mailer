@@ -23,6 +23,7 @@ app.use(cors());
 // app.use(allowCrossDomain);
 // const router = express.Router;
 app.use("/api", require("./routes/api/portfolio"));
+app.use("/api", require("./routes/api/impero"));
 
 app.get("/", (req, res) => {
   res.json({ message: "home" });
@@ -97,6 +98,104 @@ app.post("/contact", (req, res) => {
       <li style="margin-bottom: 10px;">Name: ${name}</li>
       <li style="margin-bottom: 10px;">Email: ${email}</li>
       <li style="margin-bottom: 10px;">Phone: ${phone}</li>
+      <li style="margin-bottom: 10px;">Message: ${message}</li>
+    </ul>
+  `;
+
+    let transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: `${process.env.AUTHEMAIL}`,
+        pass: `${process.env.AUTHPASSWORD}`,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    let mailOptions = {
+      from: `"ImperoTechne Contact Form" <${process.env.AUTHEMAIL}>`,
+      to: `${process.env.COMPANYEMAIL}`,
+      subject: "New Mail",
+      text: "Hello world?",
+      html: output,
+    };
+
+    try {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.json(error);
+        }
+
+        console.log("Message sent: ", info.messageId);
+        console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
+      });
+      res.json({ message: "Email has been sent" });
+    } catch (error) {
+      res.json(error);
+    }
+  } else {
+    const output = `
+    <p>You have a new mail from ImperoTechne Get Quote Form</p>
+    <h3>Contact Details</h3>
+    <ul>
+      <li style="margin-bottom: 10px;">Name: ${name}</li>
+      <li style="margin-bottom: 10px;">Email: ${email}</li>
+      <li style="margin-bottom: 10px;">Message: ${message}</li>
+    </ul>
+  `;
+
+    let transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: `${process.env.AUTHEMAIL}`,
+        pass: `${process.env.AUTHPASSWORD}`,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    let mailOptions = {
+      from: `"ImperoTechne Get Quote Form" <${process.env.AUTHEMAIL}>`,
+      to: `${process.env.EMAIL2}, ${process.env.EMAIL1}`,
+      subject: "New Mail",
+      text: "Hello world?",
+      html: output,
+    };
+
+    try {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return res.json(error);
+        }
+
+        console.log("Message sent: ", info.messageId);
+        console.log("Preview URL: ", nodemailer.getTextMessageUrl(info));
+      });
+      res.json({ message: "Email has been sent" });
+    } catch (error) {
+      res.json(error);
+    }
+  }
+});
+
+app.post("/contactForm", (req, res) => {
+  const { name, companyName, email, phoneNumber, message } = req.body;
+
+  if (phone) {
+    const output = `
+    <p>You have a new mail from ImperoTechne contact form</p>
+    <h3>Contact Details</h3>
+    <ul>
+      <li style="margin-bottom: 10px;">Name: ${name}</li>
+      <li style="margin-bottom: 10px;">Company Name: ${companyName}</li>
+      <li style="margin-bottom: 10px;">Email: ${email}</li>
+      <li style="margin-bottom: 10px;">Phone Number: ${phoneNumber}</li>
       <li style="margin-bottom: 10px;">Message: ${message}</li>
     </ul>
   `;

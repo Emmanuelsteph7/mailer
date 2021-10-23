@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
+const nodeMailgun = require("nodemailer-mailgun-transport");
 
-const sendEmail = async (options) => {
+exports.sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     host: `${process.env.SMTP_HOST}`,
     port: `${process.env.SMTP_PORT}`,
@@ -25,4 +26,28 @@ const sendEmail = async (options) => {
   }
 };
 
-module.exports = sendEmail;
+exports.sendMailgun = async (options) => {
+  const auth = {
+    auth: {
+      api_key: `${process.env.MAILGUN_API_KEY}`,
+      domain: `${process.env.MAILGUN_DOMAIN}`,
+    },
+  };
+
+  // console.log("mailgun");
+  const message = {
+    from: "Impero Techne <info@imperotechne.com>",
+    to: options.email,
+    subject: options.subject,
+    html: options.output,
+  };
+
+  let transporter = nodemailer.createTransport(nodeMailgun(auth));
+  try {
+    await transporter.sendMail(message);
+
+    // console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+};
