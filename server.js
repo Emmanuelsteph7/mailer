@@ -2,7 +2,9 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const errorMiddleware = require("./middleware/errors");
-require("dotenv").config();
+require("dotenv").config({
+  path: "./config/config.env",
+});
 
 // instantiate an express app
 const app = express();
@@ -22,6 +24,7 @@ app.use(cors());
 
 // app.use(allowCrossDomain);
 // const router = express.Router;
+app.use("/api", require("./routes/api/rahaah"));
 app.use("/api", require("./routes/api/portfolio"));
 app.use("/api", require("./routes/api/impero"));
 
@@ -337,5 +340,5 @@ app.use(errorMiddleware);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log("server started");
+  console.log(`server started at post ${process.env.PORT}`);
 });

@@ -3,26 +3,26 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { sendMailgun } = require("../utils/sendEmail");
 
 exports.sendEmail = catchAsyncErrors(async (req, res, next) => {
-  const { name, companyName, email, phoneNumber, message } = req.body;
+  const { name, phoneNumber, email, city, message } = req.body;
 
   const output = `
-      <p>You have a new mail from ImperoTechne contact form</p>
+      <p>You have a new mail from Rahaah contact form</p>
     <h3>Contact Details</h3>
     <ul>
       <li style="margin-bottom: 10px;">Name: ${name}</li>
-      <li style="margin-bottom: 10px;">Company Name: ${companyName}</li>
+      <li style="margin-bottom: 10px;">Company Name: ${phoneNumber}</li>
       <li style="margin-bottom: 10px;">Email: ${email}</li>
-      <li style="margin-bottom: 10px;">Phone Number: ${phoneNumber}</li>
+      <li style="margin-bottom: 10px;">Phone Number: ${city}</li>
       <li style="margin-bottom: 10px;">Message: ${message}</li>
     </ul>
       `;
 
   try {
     await sendMailgun({
-      email: `${process.env.RECIPIENT_MAILGUN_EMAIL}`,
-      subject: "Impero Techne Contact Form",
+      email: `${process.env.PORTFOLIO_EMAIL}`,
+      subject: "Rahaah Contact Form",
       output,
-      from: "Impero Techne <info@imperotechne.com>",
+      from: "Rahaah Contact Form",
     });
     // console.log("func");
 

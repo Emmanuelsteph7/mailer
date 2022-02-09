@@ -36,7 +36,7 @@ exports.sendMailgun = async (options) => {
 
   // console.log("mailgun");
   const message = {
-    from: "Impero Techne <info@imperotechne.com>",
+    from: options.from,
     to: options.email,
     subject: options.subject,
     html: options.output,
@@ -48,6 +48,6 @@ exports.sendMailgun = async (options) => {
 
     // console.log(res);
   } catch (err) {
-    console.log(err);
+    console.log("err", err);
   }
 };
