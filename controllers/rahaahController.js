@@ -10,9 +10,9 @@ exports.sendEmail = catchAsyncErrors(async (req, res, next) => {
     <h3>Contact Details</h3>
     <ul>
       <li style="margin-bottom: 10px;">Name: ${name}</li>
-      <li style="margin-bottom: 10px;">Company Name: ${phoneNumber}</li>
+      <li style="margin-bottom: 10px;">Phone Number: ${phoneNumber}</li>
       <li style="margin-bottom: 10px;">Email: ${email}</li>
-      <li style="margin-bottom: 10px;">Phone Number: ${city}</li>
+      <li style="margin-bottom: 10px;">City: ${city}</li>
       <li style="margin-bottom: 10px;">Message: ${message}</li>
     </ul>
       `;
@@ -22,7 +22,7 @@ exports.sendEmail = catchAsyncErrors(async (req, res, next) => {
       email: `${process.env.PORTFOLIO_EMAIL}`,
       subject: "Rahaah Contact Form",
       output,
-      from: "Rahaah Contact Form",
+      from: "Rahaah Website <info@rahaah.com>",
     });
     // console.log("func");
 
